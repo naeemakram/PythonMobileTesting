@@ -1,0 +1,34 @@
+# --- Python Basics ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Virtual Environments (Crucial) ---
+# Ignores the folder we just created so we don't upload thousands of library files
+venv/
+env/
+.venv/
+
+# --- Testing & Reports ---
+.pytest_cache/
+# You will likely generate HTML reports or XML logs later; ignore them
+*.html
+*.xml
+*.css
+test-output/
+reports/
+
+# --- Appium/Automation Artifacts ---
+# Ignore screenshots taken on failure (keeps repo clean)
+screenshots/
+*.png
+*.log
+
+# --- IDE Settings (Optional but recommended) ---
+# Keeps your personal editor settings out of the shared code
+.idea/
+.vscode/
+
+# --- Environment Variables ---
+# NEVER commit credentials or API keys
+.env
