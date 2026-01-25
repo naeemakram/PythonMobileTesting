@@ -2,6 +2,7 @@ import pytest
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
+from util import ActionHelpers  # <--- IMPORT THE HELPER
 
 # 1. SETUP: Connect to the Phone
 @pytest.fixture(scope="function")
@@ -28,21 +29,24 @@ def driver():
 
 # 2. TEST: Do 2 + 2 = 4
 def test_addition(driver):
+    
+    # Initialize the Helper with the current driver
+    actions = ActionHelpers(driver)
+
     # Find the number '2' button by ID
-    driver.find_element(AppiumBy.ID, "com.google.android.calculator:id/digit_2").click()
+    actions.wait_and_click(AppiumBy.ID, "com.google.android.calculator:id/digit_2")
     
     # Find the '+' button (Accessibility ID is often better/stable)
-    driver.find_element(AppiumBy.ACCESSIBILITY_ID, "plus").click()
+    actions.wait_and_click(AppiumBy.ACCESSIBILITY_ID, "plus")
     
     # Click '2' again
-    driver.find_element(AppiumBy.ID, "com.google.android.calculator:id/digit_2").click()
+    actions.wait_and_click(AppiumBy.ID, "com.google.android.calculator:id/digit_2")
     
     # Click '='
-    driver.find_element(AppiumBy.ACCESSIBILITY_ID, "equals").click()
+    actions.wait_and_click(AppiumBy.ACCESSIBILITY_ID, "equals")
     
     # 3. VERIFY: Check result
-    result_element = driver.find_element(AppiumBy.ID, "com.google.android.calculator:id/result_final")
-    result_text = result_element.text
+    result_text = actions.wait_and_get_text(AppiumBy.ID, "com.google.android.calculator:id/result_final")    
     
     print(f"Result is: {result_text}")
     assert result_text == "4"
@@ -50,21 +54,23 @@ def test_addition(driver):
 
     # 2. TEST: Do 2 * 2 = 4
 def test_multiplication(driver):
+    # Initialize the Helper with the current driver
+    actions = ActionHelpers(driver)
+
     # Find the number '2' button by ID
-    driver.find_element(AppiumBy.ID, "com.google.android.calculator:id/digit_2").click()
+    actions.wait_and_click(AppiumBy.ID, "com.google.android.calculator:id/digit_2")
     
     # Find the '+' button (Accessibility ID is often better/stable)
-    driver.find_element(AppiumBy.ACCESSIBILITY_ID, "multiply").click()
+    actions.wait_and_click(AppiumBy.ACCESSIBILITY_ID, "multiply")
     
     # Click '2' again
-    driver.find_element(AppiumBy.ID, "com.google.android.calculator:id/digit_2").click()
+    actions.wait_and_click(AppiumBy.ID, "com.google.android.calculator:id/digit_2")
     
     # Click '='
-    driver.find_element(AppiumBy.ACCESSIBILITY_ID, "equals").click()
+    actions.wait_and_click(AppiumBy.ACCESSIBILITY_ID, "equals")
     
     # 3. VERIFY: Check result
-    result_element = driver.find_element(AppiumBy.ID, "com.google.android.calculator:id/result_final")
-    result_text = result_element.text
+    result_text = actions.wait_and_get_text(AppiumBy.ID, "com.google.android.calculator:id/result_final")    
     
     print(f"Result is: {result_text}")
     assert result_text == "4"
