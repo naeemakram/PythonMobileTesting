@@ -10,7 +10,7 @@ def driver():
     capabilities = {
         "platformName": "Android",
         "automationName": "UiAutomator2",
-        "deviceName": "Android Emulator",  # or your device name/UDID
+        "deviceName": "",  # or your device name/UDID
         "appPackage": "com.google.android.calculator",
         "appActivity": "com.android.calculator2.Calculator",
         "language": "en",

@@ -27,4 +27,4 @@ class BasePage:
         """
         Waits for element and returns text.
         """
-        return self.find(locator).text
+        return WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(locator)).text
