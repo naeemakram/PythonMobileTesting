@@ -9,6 +9,7 @@ class CalculatorPage(BasePage):
     PLUS_BTN = (AppiumBy.ACCESSIBILITY_ID, "plus")
     MULTIPLY_BTN = (AppiumBy.ACCESSIBILITY_ID, "multiply")
     SUBTRACT_BTN = (AppiumBy.ACCESSIBILITY_ID, "minus")
+    DIVIDE_BTN = (AppiumBy.ACCESSIBILITY_ID, "divide")
     EQUALS_BTN = (AppiumBy.ACCESSIBILITY_ID, "equals")
     RESULT_SCREEN = (AppiumBy.ID, "com.google.android.calculator:id/result_final")
 
@@ -27,6 +28,9 @@ class CalculatorPage(BasePage):
 
     def tap_subtract(self):
         self.click(self.SUBTRACT_BTN)
+
+    def tap_divide(self):
+        self.click(self.DIVIDE_BTN)
 
     def tap_equals(self):
         self.click(self.EQUALS_BTN)

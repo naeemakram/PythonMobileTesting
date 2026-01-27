@@ -39,3 +39,12 @@ def test_subtraction(driver):
     calc_page.tap_equals()
     result = calc_page.get_result()
     assert result == "2"
+
+def test_division(driver):
+    calc_page = CalculatorPage(driver)
+    calc_page.tap_four()
+    calc_page.tap_divide()
+    calc_page.tap_two()
+    calc_page.tap_equals()
+    result = calc_page.get_result()
+    assert result == "2"
