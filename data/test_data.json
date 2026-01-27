@@ -1,0 +1,20 @@
+[
+    {
+        "test_name": "Add Single Digits",
+        "input_a": "2",
+        "input_b": "3",
+        "expected": "5"
+    },
+    {
+        "test_name": "Add Zero",
+        "input_a": "5",
+        "input_b": "0",
+        "expected": "5"
+    },
+    {
+        "test_name": "Add Large Numbers",
+        "input_a": "9",
+        "input_b": "9",
+        "expected": "18"
+    }
+]
