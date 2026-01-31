@@ -9,9 +9,9 @@ def test_addition(driver):
     calc_page = CalculatorPage(driver)
     
     # 2. Perform Actions (Readable!)
-    calc_page.tap_two()
+    calc_page.tap_digit("2")    
     calc_page.tap_plus()
-    calc_page.tap_two()
+    calc_page.tap_digit("2")
     calc_page.tap_equals()
     
     # 3. Assert (Validation stays in the test file)

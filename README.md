@@ -30,6 +30,37 @@ The Page Object Model is a design pattern that has become popular in test automa
 *   **Reduced Code Duplication:** Page objects can be reused across multiple tests.
 *   **Easier Maintenance:** If the UI changes, you only need to update the page object, not the test scripts.
 
+## Using device-farm plugin
+Appium device-farm plugin is helpful when we have multiple devices setup. It simplifies our mobile automation workflow and makes testing on multiple devices manageable. 
+### Installing Device Farm Plugin
+```bash
+appium plugin install --source=npm appium-device-farm
+```
+### Checking if plugin is installed
+```bash
+appium plugin list
+```
+### Starting Appium Plugin
+```bash
+appium server --use-plugins=device-farm --allow-cors
+```
+### Starting With Android Specifically if Your Device Not Found with nNormal Command
+```bash
+appium server --use-plugins=device-farm --plugin-device-farm-platform=android --allow-cors
+```
+
+### When Appium version clashes with plugin
+Use the following switch
+```bash
+--base-path=/wd/hub
+```
+
+### Run Tests with HTML reporting(through plugin)
+```bash
+pytest --html=report.html
+```
+
+
 ## Getting Started
 
 To get started with this project, you'll need to have Python and Node.js installed.
@@ -61,3 +92,4 @@ To get started with this project, you'll need to have Python and Node.js install
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 #Learning #GrowthMindset #QACommunity #TestEngineering #Python
+
