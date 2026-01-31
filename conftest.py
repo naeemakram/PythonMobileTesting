@@ -4,6 +4,7 @@ import pytest
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from pathlib import Path
+from pytest_html import extras
 
 @pytest.fixture(scope="function")
 def driver(request):
@@ -41,43 +42,40 @@ def driver(request):
     driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", options=options)
     # 4. Yield Driver to Test
     # The test runs here.
+    # 👇 CRITICAL STEP: Attach driver to the test node
+    # This acts as the "Bridge" allowing the Hook to find the driver
+    request.node.driver = driver
+
     yield driver
 
     # 5. Teardown
     # This runs after the test is finished.
     driver.quit()
 
-# 2. THE SCREENSHOT HOOK (New Logic)
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
-    """
-    This runs after every test stage (setup, call, teardown).
-    It checks if the test failed and takes a screenshot.
-    """
     # Execute all other hooks to obtain the report object
     outcome = yield
     report = outcome.get_result()
-
-    # We only care if the actual test execution ("call") failed
-    if report.when == "call" and report.failed:
-        # Check if the test has a 'driver' attached
-        driver = getattr(item, "driver", None)
-        
-        if driver:
-            # Create a Path object for the screenshots directory
-            screenshot_dir = Path("screenshots")
+    
+    # We only look at the "call" stage (the actual test execution)
+    if report.when == "call":
+        # Check if test failed OR if you want it for passed tests too
+        # Change to: "if True:" to capture screenshot for EVERY test
+        if report.failed or report.passed: 
             
-            # Create screenshots folder if missing
-            screenshot_dir.mkdir(parents=True, exist_ok=True)
+            # Get the driver from the test item
+            driver = getattr(item, "driver", None)
             
-            # Generate unique filename with timestamp
-            timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")                        
-            file_path = screenshot_dir / f"FAIL_{item.name}_{timestamp}.png"
-
-            # Take the screenshot
-            driver.save_screenshot(str(file_path))
-            
-            # OPTIONAL: Attach to HTML Report (if using pytest-html)
-            if "pytest_html" in item.config.pluginmanager.list_plugin_distinfo():
-                extra = getattr(report, "extra", [])
-                # (You can add logic here to embed image in report later)
+            if driver:
+                # 1. Capture Screenshot as Base64 (Text) instead of File
+                screenshot_base64 = driver.get_screenshot_as_base64()
+                
+                # 2. Create an HTML <div> for the image
+                # (You can just pass the base64 string, but this format is safer)
+                html_image = f'<div><img src="data:image/png;base64,{screenshot_base64}" style="width:300px;height:auto;" onclick="window.open(this.src)" /></div>'
+                
+                # 3. Attach to Report using 'extras'
+                extra = getattr(report, "extras", [])
+                extra.append(extras.html(html_image))
+                report.extra = extra
