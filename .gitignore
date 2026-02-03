@@ -9,6 +9,10 @@ venv/
 env/
 .venv/
 
+*.env
+.env.*
+.env
+
 # --- Testing & Reports ---
 .pytest_cache/
 # You will likely generate HTML reports or XML logs later; ignore them
